@@ -1,0 +1,5 @@
+h1 {text-align: center;}
+
+table.center, tr.center, td.center {margin-left:auto; margin-right:auto;}
+
+body{background-color: slategray}

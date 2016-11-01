@@ -2,7 +2,7 @@ h1 {text-align: center;}
 
 h3 {text-decoration: underline}
 
-table.center, tr.center, td.center {margin-left:auto; margin-right:auto;}
+table.center {margin-left:auto; margin-right:auto;}
 
 body{background-color: slategray}
 

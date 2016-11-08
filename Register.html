@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <title>Register</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="scripts.js"></script>
 </head>
-<body>
+<body onload="RegisterLoad()">
 <h1>Federal Tax Calculator</h1>
 
 <table class = "center">
     <tr><td>Please enter your name:</td>    <td><input type="text" id="txtRegister"></td></tr>
-    <tr><td><input type="button" id="btnRegister" value="Register"></td></tr>
+    <tr><td><input type="button" id="btnRegister" value="Register" onclick="Register()"></td></tr>
+    <tr><td><div id="divRegisterError" class="error"></div></td></tr>
 </table>
 </body>
 </html>

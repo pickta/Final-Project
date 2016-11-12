@@ -38,3 +38,11 @@ function Logout(){
     localStorage.setItem(LOGIN, OUT);
     window.location.href = "Register.html"
 }
+
+function ToInput(){
+    window.location.href = "Input.html";
+}
+
+function ToSavedResults(){
+    window.location.href = "Saved Results.html";
+}

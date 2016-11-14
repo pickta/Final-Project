@@ -24,7 +24,6 @@ function Register(){
         accountNum++;
         localStorage.setItem(ACCOUNT_NUM, accountNum);
 
-        var loggedIn = IN;
         localStorage.setItem(LOGIN, loggedIn);
 
         window.location.href= "Home.html";
@@ -52,11 +51,33 @@ function Calculate(){
 }
 
 function LoadSavedResults(){
-    localStorage.setItem("debugList", "Debug Name")
+    localStorage.setItem("debugList", "Debug Name");
     if (localStorage.getItem("debugList") == null){
         GetId("divListResults").innerHTML = "<tr><td>There are currently no saved results.</tr><td>";
     }else{
         //Use loop to iterate through each existing save. Each link should contain diffrent parameters for a called function.
-        GetId("divListResults").innerHTML = "<tr><td><a href='Saved%20Result.html'>"+localStorage.getItem("debugList")+"</a></tr></td>";
+        GetId("divListResults").innerHTML = "<tr><td><a href='Saved%20Result.html' onclick='GoToSavedResults(\"DebugName\", \"DebugStatus\", 25000, \"0.1\", 2500)'>"
+            +localStorage.getItem("debugList")+"</a></tr></td>";
     }
+}
+
+
+
+function LoadSavedResult(){
+
+
+    GetId("divSavedName").innerHTML = localStorage.getItem("activeName");
+    GetId("divSavedStatus").innerHTML = localStorage.getItem("activeStatus");
+    GetId("divSavedIncome").innerHTML = "$" + Math.round(parseFloat(localStorage.getItem("activeIncome")) * 100) / 100;
+    GetId("divSavedBracket").innerHTML = parseFloat(localStorage.getItem("activeBracket")) * 100 + "%";
+    GetId("divSavedTax").innerHTML = "$" + Math.round(parseFloat(localStorage.getItem("activeTax")) * 100) / 100;
+}
+
+function GoToSavedResults(name, status, income, bracket, tax){
+    // Considering using an array for simplifying the program. For now, set debug placehoders.
+    localStorage.setItem("activeName", name);
+    localStorage.setItem("activeStatus", status);
+    localStorage.setItem("activeIncome", income);
+    localStorage.setItem("activeBracket", bracket);
+    localStorage.setItem("activeTax", tax);
 }

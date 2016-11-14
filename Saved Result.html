@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Saved Result</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="scripts.js"></script>
 </head>
-<body>
+<body onload="LoadSavedResult()">
 <h3>Tax Information:</h3>
 
 <table>
@@ -16,11 +17,12 @@
     <tr><td>Calculated Tax:</td>                <td><div id="divSavedTax"></div></td></tr>
     <tr><td>Delete Results?</td>                <td><input type="radio" id="radDelete" name="deleteResults">Delete<input type="radio" id="radNoDelete" name="delelteResults">No</td>
     <tr><td>Currency Converter:</td>
-    <td><select id="foreignCurrency">
-        <option>Canadian Dollars</option>
-        <option>Euros</option>
-        <option>Japanese Yen</option>
-    </select></td>                              <td><input type="button" value="Convert" id="btnConvert"></td></tr>
+        <td><select id="foreignCurrency">
+            <option>Canadian Dollars</option>
+            <option>Euros</option>
+            <option>Japanese Yen</option>
+        </select></td>                              <td><input type="button" value="Convert" id="btnConvert" onclick="Convert()"></td>
+        <td><input type="button" value="Convert back to US Dollars" id="btnUSConvert" onclick="USConvert()"></td></tr>
     <tr><td><input type="button" id="btnExit" value="Exit"></td></tr>
 </table>
 </body>

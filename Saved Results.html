@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <title>Saved Results</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="scripts.js"></script>
 </head>
-<body>
+<body onload="LoadSavedResults()">
 <input type="button" id="btnReturn" value="Return">
 
 <h3>List of Previous Results:</h3>
 
-<div id="divListResults">There are currently no saved results</div>
+<table>
+<div id="divListResults"></div>
+</table>
 <input type="button" id="btnCompare" value="Compare Results" hidden="true">
 </body>
 </html>

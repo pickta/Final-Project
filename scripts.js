@@ -46,3 +46,17 @@ function ToInput(){
 function ToSavedResults(){
     window.location.href = "Saved Results.html";
 }
+
+function Calculate(){
+
+}
+
+function LoadSavedResults(){
+    localStorage.setItem("debugList", "Debug Name")
+    if (localStorage.getItem("debugList") == null){
+        GetId("divListResults").innerHTML = "<tr><td>There are currently no saved results.</tr><td>";
+    }else{
+        //Use loop to iterate through each existing save. Each link should contain diffrent parameters for a called function.
+        GetId("divListResults").innerHTML = "<tr><td><a href='Saved%20Result.html'>"+localStorage.getItem("debugList")+"</a></tr></td>";
+    }
+}

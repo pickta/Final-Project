@@ -50,6 +50,10 @@ function Calculate(){
 
 }
 
+function ToHome(){
+    window.location.href = "Home.html";
+}
+
 function LoadSavedResults(){
     localStorage.setItem("debugList", "Debug Name");
     if (localStorage.getItem("debugList") == null){

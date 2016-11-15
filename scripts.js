@@ -81,3 +81,17 @@ function GoToSavedResults(name, status, income, bracket, tax){
     localStorage.setItem("activeBracket", bracket);
     localStorage.setItem("activeTax", tax);
 }
+
+function Convert(){
+    if (GetId("foreignCurrency").selectedIndex == 0){
+        GetId("divSavedIncome").innerHTML = "$" + Math.round(parseFloat(localStorage.getItem("activeIncome")) * 1.36 *100) /100;
+        GetId("divSavedTax").innerHTML = "$" + Math.round(parseFloat(localStorage.getItem("activeTax"))*1.36 * 100) / 100;
+    } else if (GetId("foreignCurrency").selectedIndex == 1){
+        GetId("divSavedIncome").innerHTML = "€" + Math.round(parseFloat(localStorage.getItem("activeIncome")) * 0.93 *100) /100;
+        GetId("divSavedTax").innerHTML = "€" + Math.round(parseFloat(localStorage.getItem("activeTax"))* 0.93 * 100) / 100;
+    } else if (GetId("foreignCurrency").selectedIndex == 2){
+        GetId("divSavedIncome").innerHTML = "¥" + Math.round(parseFloat(localStorage.getItem("activeIncome")) * 108.14 *100) /100;
+        GetId("divSavedTax").innerHTML = "¥" + Math.round(parseFloat(localStorage.getItem("activeTax"))* 108.14 * 100) / 100;
+    }
+
+}

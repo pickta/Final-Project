@@ -4,6 +4,10 @@ const LOGIN = "login";
 const IN = "logged in";
 const OUT = "logged out";
 
+var numSavedResults;
+var firstResult;
+var secondResult;
+
 function GetId(id){
     return document.getElementById(id);
 }
@@ -56,12 +60,23 @@ function ToHome(){
 
 function LoadSavedResults(){
     localStorage.setItem("debugList", "Debug Name");
+    localStorage.setItem("debugList2", "Debug Name2");
+    localStorage.setItem("debugList3", "Debug Name3");
     if (localStorage.getItem("debugList") == null){
-        GetId("divListResults").innerHTML = "<tr><td>There are currently no saved results.</tr><td>";
+        GetId("ListResults").innerHTML = "<tr><td>There are currently no saved results.</tr><td>";
     }else{
         //Use loop to iterate through each existing save. Each link should contain diffrent parameters for a called function.
-        GetId("divListResults").innerHTML = "<tr><td><a href='Saved%20Result.html' onclick='GoToSavedResults(\"DebugName\", \"DebugStatus\", 25000, \"0.1\", 2500)'>"
-            +localStorage.getItem("debugList")+"</a></tr></td>";
+        GetId("ListResults").innerHTML += "<tr><td><input type='checkbox' id='chkResult0'></td>" +
+            "<td><a href='Saved%20Result.html' onclick='GoToSavedResults(\"DebugName\", \"DebugStatus\", 25000, \"0.1\", 2500)'>"
+            +localStorage.getItem("debugList")+"</a></td></tr>";
+        GetId("ListResults").innerHTML += "<tr><td><input type='checkbox' id='chkResult1'></td>" +
+            "<td><a href='Saved%20Result.html' onclick='GoToSavedResults(\"DebugName2\", \"DebugStatus2\", 50000, \"0.25\", 12500)'>"
+            +localStorage.getItem("debugList2")+"</a></td></tr>";
+        GetId("ListResults").innerHTML += "<tr><td><input type='checkbox' id='chkResult2'></td>" +
+            "<td><a href='Saved%20Result.html' onclick='GoToSavedResults(\"DebugName3\", \"DebugStatus3\", 15000, \"0.1\", 1500)'>"
+            +localStorage.getItem("debugList3")+"</a></td></tr>";
+        numSavedResults = 2;
+        GetId("ListResults").innerHTML += "<tr><td></td><td><input type = 'button' id='btnToCompare' onclick='ToCompareResults(numSavedResults)' value = 'Compare Results'></td></tr>"
     }
 }
 
@@ -98,4 +113,31 @@ function Convert(){
         GetId("divSavedTax").innerHTML = "¥" + Math.round(parseFloat(localStorage.getItem("activeTax"))* 108.14 * 100) / 100;
     }
 
+}
+
+function ToCompareResults(max) {
+    var numChecked = 0;
+    var Result1;
+    var Result2;
+    for(c = 0; c <= max; c++){
+        if (GetId("chkResult" + c).checked){
+            numChecked++;
+            if (Result2 = null){
+                if(Result1 = null){
+                    Result1 = c;
+                }else{
+                    Result2 = c;
+                }
+            }
+        }
+    }
+
+    if(numChecked == 2){
+        firstResult = Result1;
+        secondResult = Result2;
+        window.location.href = "Compare Results.html"
+    }else{
+        GetId("divErrorCompare").innerHTML = "Please select only 2 results to compare."
+
+    }
 }

@@ -7,6 +7,17 @@ const OUT = "logged out";
 var numSavedResults;
 
 
+function Redirect() {
+    if (localStorage.getItem("pagePass") != "1"){
+        if(localStorage.getItem(LOGIN) == IN){
+            window.location.href= "Home.html";
+        }else{
+            window.location.href = "Register.html"
+        }
+    }else{
+        localStorage.setItem("pagePass", "0");
+    }
+}
 
 function GetId(id){
     return document.getElementById(id);
@@ -14,7 +25,7 @@ function GetId(id){
 
 function RegisterLoad(){
     if(localStorage.getItem(LOGIN) == IN){
-       window.location.href= "Home.html";
+        window.location.href= "Home.html";
     }
 }
 
@@ -28,7 +39,7 @@ function Register(){
         accountNum++;
         localStorage.setItem(ACCOUNT_NUM, accountNum);
 
-        localStorage.setItem(LOGIN, loggedIn);
+        localStorage.setItem(LOGIN, IN);
 
         window.location.href= "Home.html";
     }else{
@@ -37,21 +48,38 @@ function Register(){
 
 }
 
+function LoadHome() {
+    if(localStorage.getItem(LOGIN) == OUT || localStorage.getItem(LOGIN) == null){
+        window.location.href= "Register.html";
+    }
+}
+
 function Logout(){
     localStorage.setItem(LOGIN, OUT);
     window.location.href = "Register.html"
 }
 
 function ToInput(){
+    localStorage.setItem("pagePass", "1");
     window.location.href = "Input.html";
 }
 
+function LoadInput() {
+    Redirect();
+}
+
 function ToSavedResults(){
+    localStorage.setItem("pagePass","1");
     window.location.href = "Saved Results.html";
 }
 
 function Calculate(){
+    localStorage.setItem("pagePass", "1");
+    window.location.href = "Results.html";
+}
 
+function LoadResults(){
+    Redirect();
 }
 
 function ToHome(){
@@ -59,7 +87,7 @@ function ToHome(){
 }
 
 function LoadSavedResults(){
-
+    Redirect();
     //Placeholder results for development purposes.
     localStorage.setItem("debugList", "Debug Name");
     localStorage.setItem("debugList2", "Debug Name2");
@@ -87,7 +115,7 @@ function LoadSavedResults(){
 
 
 function LoadSavedResult(){
-
+    Redirect();
 
     GetId("divSavedName").innerHTML = localStorage.getItem("activeName");
     GetId("divSavedStatus").innerHTML = localStorage.getItem("activeStatus");
@@ -97,6 +125,7 @@ function LoadSavedResult(){
 }
 
 function GoToSavedResults(name, status, income, bracket, tax){
+    localStorage.setItem("pagePass", "1");
     // Considering using an array for simplifying the program. For now, set debug placehoders.
     localStorage.setItem("activeName", name);
     localStorage.setItem("activeStatus", status);
@@ -139,6 +168,7 @@ function ToCompareResults(max) {
     if(numChecked == 2){
         localStorage.setItem("firstResult", Result1);
         localStorage.setItem("secondResult", Result2);
+        localStorage.setItem("pagePass", "1");
         window.location.href = "Compare Results.html"
     }else{
         GetId("divErrorCompare").innerHTML = "Please select only 2 results to compare."
@@ -146,7 +176,7 @@ function ToCompareResults(max) {
 }
 
 function LoadCompareResults() {
-
+    Redirect();
     //Placeholder keys for placeholder arrays.
     localStorage.setItem("keyDebug0", "DebugName DebugStatus 25000 0.1 2500");
     localStorage.setItem("keyDebug1", "DebugName2 DebugStatus2 50000 0.25 12500");

@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Results</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="scripts.js"></script>
 </head>
-<body>
+<body onload="LoadResults()">
 <h3>Tax Information:</h3>
 
 <table>
@@ -16,7 +17,7 @@
     <tr><td>Calculated Tax:</td>                <td><div id="divTax"></div></td></tr>
     <tr><td>Save Results?</td>                  <td><input type="radio" id="radSave" name="saveResults">Save<input type="radio" id="radNoSave" name="saveResults">No</td>
         <td><input type="text" id="txtSaveName" hidden="true"></td></tr>
-    <tr><td><input type="button" id="btnContinue" value="Continue"></td></tr>
+    <tr><td><input type="button" id="btnContinue" value="Continue" onclick="ToHome()"></td></tr>
 </table>
 </body>
 </html>

@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Compare Results</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="scripts.js"></script>
 </head>
-<body>
+<body onload = LoadCompareResults()>
 <h3>Result 1:</h3>
 <table>
     <tr><td>Name:</td>                          <td><div id="divNameResult1"></div></td></tr>
@@ -31,6 +32,6 @@
     <tr><td>Calculated Tax:</td>                <td><div id="divTaxCompare"></div></td></tr>
 </table>
 
-<input type="button" id="btnBack" value="Back">
+<input type="button" id="btnBack" value="Back" onclick="ToSavedResults()">
 </body>
 </html>

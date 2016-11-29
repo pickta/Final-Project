@@ -5,8 +5,8 @@ const IN = "logged in";
 const OUT = "logged out";
 
 var numSavedResults;
-var firstResult;
-var secondResult;
+
+
 
 function GetId(id){
     return document.getElementById(id);
@@ -59,9 +59,13 @@ function ToHome(){
 }
 
 function LoadSavedResults(){
+
+    //Placeholder results for development purposes.
     localStorage.setItem("debugList", "Debug Name");
     localStorage.setItem("debugList2", "Debug Name2");
     localStorage.setItem("debugList3", "Debug Name3");
+
+
     if (localStorage.getItem("debugList") == null){
         GetId("ListResults").innerHTML = "<tr><td>There are currently no saved results.</tr><td>";
     }else{
@@ -122,8 +126,8 @@ function ToCompareResults(max) {
     for(c = 0; c <= max; c++){
         if (GetId("chkResult" + c).checked){
             numChecked++;
-            if (Result2 = null){
-                if(Result1 = null){
+            if (Result2 == null){
+                if(Result1 == null){
                     Result1 = c;
                 }else{
                     Result2 = c;
@@ -133,11 +137,43 @@ function ToCompareResults(max) {
     }
 
     if(numChecked == 2){
-        firstResult = Result1;
-        secondResult = Result2;
+        localStorage.setItem("firstResult", Result1);
+        localStorage.setItem("secondResult", Result2);
         window.location.href = "Compare Results.html"
     }else{
         GetId("divErrorCompare").innerHTML = "Please select only 2 results to compare."
-
     }
+}
+
+function LoadCompareResults() {
+
+    //Placeholder keys for placeholder arrays.
+    localStorage.setItem("keyDebug0", "DebugName DebugStatus 25000 0.1 2500");
+    localStorage.setItem("keyDebug1", "DebugName2 DebugStatus2 50000 0.25 12500");
+    localStorage.setItem("keyDebug2", "DebugName3 DebugStatus3 15000 0.1 1500");
+
+    var firstResult = parseInt(localStorage.getItem("firstResult"));
+    var secondResult = parseInt(localStorage.getItem("secondResult"));
+
+    var stringArray1 = localStorage.getItem("keyDebug" + firstResult);
+    var stringArray2 = localStorage.getItem("keyDebug" + secondResult);
+
+    var firstArray = stringArray1.split(' ');
+    var secondArray = stringArray2.split(' ');
+
+    GetId("divNameResult1").innerHTML = firstArray[0];
+    GetId("divStatusResult1").innerHTML = firstArray[1];
+    GetId("divIncomeResult1").innerHTML = "$" +  firstArray[2];
+    GetId("divBracketResult1").innerHTML = (parseFloat(firstArray[3]) *100) + "%" ;
+    GetId("divTaxResult1").innerHTML = "$" + firstArray[4];
+
+    GetId("divNameResult2").innerHTML = secondArray[0];
+    GetId("divStatusResult2").innerHTML = secondArray[1];
+    GetId("divIncomeResult2").innerHTML = "$" + secondArray[2];
+    GetId("divBracketResult2").innerHTML = (parseFloat(secondArray[3]) *100) + "%" ;
+    GetId("divTaxResult2").innerHTML = "$" + secondArray[4];
+
+    GetId("divIncomeCompare").innerHTML = "$" + (parseFloat(secondArray[2]) - parseFloat(firstArray[2]));
+    GetId("divBracketCompare").innerHTML = (parseFloat(secondArray[3]) - parseFloat(firstArray[3])) * 100 + "%";
+    GetId("divTaxCompare").innerHTML = "$" + (parseFloat(secondArray[4]) - parseFloat(firstArray[4]));
 }

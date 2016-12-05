@@ -1,6 +1,6 @@
 const ACCOUNT = "account";
-const ACCOUNT_NUM = "account number";
 const LOGIN = "login";
+const ACCOUNT_NAME = "account name";
 const IN = "logged in";
 const OUT = "logged out";
 
@@ -30,14 +30,13 @@ function RegisterLoad(){
 }
 
 function Register(){
-    var accountNum = 0;
-    if(localStorage.getItem(ACCOUNT_NUM) != null){
-        accountNum = localStorage.getItem("accountNum");
+    var accountName = GetId("txtRegister").value;
+    if(localStorage.getItem(ACCOUNT + accountName) != null){
+        accountName = localStorage.getItem("accountName");
     }
     if (GetId("txtRegister").value != ""){
-        localStorage.setItem(ACCOUNT + accountNum, GetId("txtRegister").value);
-        accountNum++;
-        localStorage.setItem(ACCOUNT_NUM, accountNum);
+        localStorage.setItem(ACCOUNT + accountName, GetId("txtRegister").value);
+        localStorage.setItem(ACCOUNT_NAME , ACCOUNT + accountName);
 
         localStorage.setItem(LOGIN, IN);
 

@@ -1,8 +1,9 @@
 const ACCOUNT = "account";
 const LOGIN = "login";
-const ACCOUNT_NAME = "account name";
+const ACCOUNT_NAME = "active account name";
 const IN = "logged in";
 const OUT = "logged out";
+const SAVED_RESULT = "savedResult";
 
 var numSavedResults;
 
@@ -31,11 +32,8 @@ function RegisterLoad(){
 
 function Register(){
     var accountName = GetId("txtRegister").value;
-    if(localStorage.getItem(ACCOUNT + accountName) != null){
-        accountName = localStorage.getItem("accountName");
-    }
     if (GetId("txtRegister").value != ""){
-        localStorage.setItem(ACCOUNT + accountName, GetId("txtRegister").value);
+        localStorage.setItem(ACCOUNT + accountName, accountName);
         localStorage.setItem(ACCOUNT_NAME , ACCOUNT + accountName);
 
         localStorage.setItem(LOGIN, IN);
@@ -65,6 +63,11 @@ function ToInput(){
 
 function LoadInput() {
     Redirect();
+
+    if(localStorage.getItem("nextStatus" + localStorage.getItem(ACCOUNT_NAME)) != null && localStorage.getItem("nextIncome" + localStorage.getItem(ACCOUNT_NAME)) != null){
+        GetId("filingStatus").selectedIndex = parseInt(localStorage.getItem("nextStatus" + localStorage.getItem(ACCOUNT_NAME)));
+        GetId("txtIncome").value = localStorage.getItem("nextIncome" + localStorage.getItem(ACCOUNT_NAME));
+    }
 }
 
 function ToSavedResults(){
@@ -73,12 +76,103 @@ function ToSavedResults(){
 }
 
 function Calculate(){
-    localStorage.setItem("pagePass", "1");
-    window.location.href = "Results.html";
+    var status = GetId("filingStatus").selectedIndex;
+    var income = parseFloat(GetId("txtIncome").value);
+
+    if (income >= 0){
+        if (status == 0){
+            localStorage.setItem("inputtedStatus", "SI");
+            if(income >= 415050){
+                localStorage.setItem("calculatedBracket", "0.396");
+                localStorage.setItem("calculatedTax", (income *0.396));
+            }else if(income >= 413350){
+                localStorage.setItem("calculatedBracket", "0.35");
+                localStorage.setItem("calculatedTax", (income * 0.35));
+            }else if (income >= 190150){
+                localStorage.setItem("calculatedBracket", "0.33");
+                localStorage.setItem("calculatedTax", (income * 0.33));
+            }else if (income >= 91150){
+                localStorage.setItem("calculatedBracket", "0.28");
+                localStorage.setItem("calculatedTax", (income * 0.28));
+            }else if (income >= 37650){
+                localStorage.setItem("calculatedBracket", "0.25");
+                localStorage.setItem("calculatedTax", (income * 0.25));
+            }else if (income >= 9275){
+                localStorage.setItem("calculatedBracket", "0.15");
+                localStorage.setItem("calculatedTax", (income * 0.15));
+            }else{
+                localStorage.setItem("calculatedBracket", "0.1");
+                localStorage.setItem("calculatedTax", (income * 0.1));
+            }
+        }else if(status == 1){
+            localStorage.setItem("inputtedStatus", "MJ");
+            if(income >= 466950){
+                localStorage.setItem("calculatedBracket", "0.396");
+                localStorage.setItem("calculatedTax", (income * 0.396));
+            }else if(income >= 413350){
+                localStorage.setItem("calculatedBracket", "0.35");
+                localStorage.setItem("calculatedTax", (income * 0.35));
+            }else if(income >= 231450){
+                localStorage.setItem("calculatedBracket", "0.33");
+                localStorage.setItem("calculatedTax", (income * 0.33));
+            }else if(income >= 151900){
+                localStorage.setItem("calculatedBracket", "0.28");
+                localStorage.setItem("calculatedTax", (income * 0.28));
+            }else if(income >= 75300){
+                localStorage.setItem("calculatedBracket", "0.25");
+                localStorage.setItem("calculatedTax", (income * 0.25));
+            }else if(income >= 18550){
+                localStorage.setItem("calculatedBracket", "0.15");
+                localStorage.setItem("calculatedTax", (income * 0.15));
+            }else{
+                localStorage.setItem("calculatedBracket", "0.1");
+                localStorage.setItem("calculatedTax", (income * 0.1));
+            }
+        }
+        localStorage.setItem("inputtedIncome", income);
+
+        if(GetId("chkSaveInput").checked == true){
+            localStorage.setItem("nextStatus" + localStorage.getItem(ACCOUNT_NAME), status);
+            localStorage.setItem("nextIncome" + localStorage.getItem(ACCOUNT_NAME), income);
+        }
+
+
+        localStorage.setItem("pagePass", "1");
+        window.location.href = "Results.html";
+    }else{
+        GetId("divInputError").innerHTML = "*Please input a positive number for income.";
+    }
 }
 
 function LoadResults(){
     Redirect();
+
+    GetId("divName").innerHTML = localStorage.getItem(localStorage.getItem(ACCOUNT_NAME));
+    GetId("divStatus").innerHTML = localStorage.getItem("inputtedStatus");
+    GetId("divIncome").innerHTML = "$" + Math.round(parseFloat(localStorage.getItem("inputtedIncome") * 100)) / 100;
+    GetId("divBracket").innerHTML = parseFloat(localStorage.getItem("calculatedBracket") * 100) + "%";
+    GetId("divTax").innerHTML = "$" + Math.round(parseFloat(localStorage.getItem("calculatedTax")) * 100) / 100;
+}
+
+function Continue(){
+    if(GetId("radNoSave").checked == true){
+        window.location.href = "Home.html"
+    }else if(GetId("radSave").checked == true){
+        if (GetId("txtSaveName").value != "") {
+            var arraySavedResult = [localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + " " + localStorage.getItem("inputtedStatus") + " " + localStorage.getItem("inputtedIncome") + " " + localStorage.getItem("calculatedBracket") + " " + localStorage.getItem("calculatedTax")];
+            var stop = 0;
+            for (var n = 0; stop == 0; n++) {
+                if (localStorage.getItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + n) == null) {
+                    localStorage.setItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + n, arraySavedResult);
+                    localStorage.setItem("savedName" + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + n, GetId("txtSaveName").value);
+                    stop = 1;
+                }
+            }
+            window.location.href = "Home.html"
+        }else{
+            GetId("divSaveError").innerHTML = "*Please enter a name for the result you are saving."
+        }
+    }
 }
 
 function ToHome(){
@@ -87,50 +181,81 @@ function ToHome(){
 
 function LoadSavedResults(){
     Redirect();
-    //Placeholder results for development purposes.
-    localStorage.setItem("debugList", "Debug Name");
-    localStorage.setItem("debugList2", "Debug Name2");
-    localStorage.setItem("debugList3", "Debug Name3");
-
-
-    if (localStorage.getItem("debugList") == null){
+    var stop = 0;
+    if (localStorage.getItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + 0) == null){
         GetId("ListResults").innerHTML = "<tr><td>There are currently no saved results.</tr><td>";
-    }else{
-        //Use loop to iterate through each existing save. Each link should contain diffrent parameters for a called function.
-        GetId("ListResults").innerHTML += "<tr><td><input type='checkbox' id='chkResult0'></td>" +
-            "<td><a href='Saved%20Result.html' onclick='GoToSavedResults(\"DebugName\", \"DebugStatus\", 25000, \"0.1\", 2500)'>"
-            +localStorage.getItem("debugList")+"</a></td></tr>";
-        GetId("ListResults").innerHTML += "<tr><td><input type='checkbox' id='chkResult1'></td>" +
-            "<td><a href='Saved%20Result.html' onclick='GoToSavedResults(\"DebugName2\", \"DebugStatus2\", 50000, \"0.25\", 12500)'>"
-            +localStorage.getItem("debugList2")+"</a></td></tr>";
-        GetId("ListResults").innerHTML += "<tr><td><input type='checkbox' id='chkResult2'></td>" +
-            "<td><a href='Saved%20Result.html' onclick='GoToSavedResults(\"DebugName3\", \"DebugStatus3\", 15000, \"0.1\", 1500)'>"
-            +localStorage.getItem("debugList3")+"</a></td></tr>";
-        numSavedResults = 2;
-        GetId("ListResults").innerHTML += "<tr><td></td><td><input type = 'button' id='btnToCompare' onclick='ToCompareResults(numSavedResults)' value = 'Compare Results'></td></tr>"
+    }else {
+        for (var n = 0; stop == 0; n++){
+            if (localStorage.getItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + n) != null) {
+                GetId("ListResults").innerHTML += "<tr><td><input type='checkbox' id='chkResult" + n + "'></td>" +
+                    "<td><a href='Saved%20Result.html' onclick='GoToSavedResults(\"" + localStorage.getItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + n) + "\"," + n + ")'>"
+                    + localStorage.getItem("savedName" + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + n) + "</a></td></tr>";
+
+            }else {
+                numSavedResults = (n - 1);
+                GetId("ListResults").innerHTML += "<tr><td></td><td><input type = 'button' id='btnToCompare' onclick='ToCompareResults(numSavedResults)' value = 'Compare Results'></td>    <td><div class = error id='divErrorCompare'></div></td></tr>";
+                stop = 1;
+            }
+        }
     }
 }
 
 
 
 function LoadSavedResult(){
-    Redirect();
-
     GetId("divSavedName").innerHTML = localStorage.getItem("activeName");
     GetId("divSavedStatus").innerHTML = localStorage.getItem("activeStatus");
     GetId("divSavedIncome").innerHTML = "$" + Math.round(parseFloat(localStorage.getItem("activeIncome")) * 100) / 100;
     GetId("divSavedBracket").innerHTML = parseFloat(localStorage.getItem("activeBracket")) * 100 + "%";
     GetId("divSavedTax").innerHTML = "$" + Math.round(parseFloat(localStorage.getItem("activeTax")) * 100) / 100;
+    Redirect();
 }
 
-function GoToSavedResults(name, status, income, bracket, tax){
+function Exit(){
+    if(GetId("radNoDelete").checked == true){
+        ToSavedResults();
+    }else if(GetId("radDelete").checked == true){
+        var arraySaves = [];
+        var arrayNames = [];
+        var deletedIndex = parseInt(localStorage.getItem("activeIndex"));
+        var stop = 0;
+        for (var n= 0; stop == 0; n++){
+            if(localStorage.getItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + n) != null){
+                arraySaves.push(localStorage.getItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + n));
+                arrayNames.push(localStorage.getItem("savedName" + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + n));
+            }else{
+                arraySaves.splice(deletedIndex, 1);
+                arrayNames.splice(deletedIndex, 1);
+
+                for (var i = 0; i < arraySaves.length; i++){
+                    localStorage.setItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + i, arraySaves[i]);
+                    localStorage.setItem("savedName" + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + i, arrayNames[i]);
+                }
+                if(localStorage.getItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + (n - 1)) != null){
+                    localStorage.removeItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + (n - 1));
+                    localStorage.removeItem("savedName" + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + (n - 1));
+                }
+                stop = 1;
+            }
+        }
+        ToSavedResults();
+    }
+}
+
+function GoToSavedResults(savedArray, index){
     localStorage.setItem("pagePass", "1");
-    // Considering using an array for simplifying the program. For now, set debug placehoders.
-    localStorage.setItem("activeName", name);
-    localStorage.setItem("activeStatus", status);
-    localStorage.setItem("activeIncome", income);
-    localStorage.setItem("activeBracket", bracket);
-    localStorage.setItem("activeTax", tax);
+
+    var result = [];
+
+    result = savedArray.split(' ');
+
+    localStorage.setItem("activeName", result[0]);
+    localStorage.setItem("activeStatus", result[1]);
+    localStorage.setItem("activeIncome", result[2]);
+    localStorage.setItem("activeBracket", result[3]);
+    localStorage.setItem("activeTax", result[4]);
+
+    localStorage.setItem("activeIndex", index);
 }
 
 function Convert(){
@@ -147,11 +272,16 @@ function Convert(){
 
 }
 
+function ConvertUS(){
+    GetId("divSavedIncome").innerHTML = "$" + Math.round(parseFloat(localStorage.getItem("activeIncome")) * 100) / 100;
+    GetId("divSavedTax").innerHTML = "$" + Math.round(parseFloat(localStorage.getItem("activeTax")) * 100) / 100;
+}
+
 function ToCompareResults(max) {
     var numChecked = 0;
     var Result1;
     var Result2;
-    for(c = 0; c <= max; c++){
+    for(var c = 0; c <= max; c++){
         if (GetId("chkResult" + c).checked){
             numChecked++;
             if (Result2 == null){
@@ -170,22 +300,18 @@ function ToCompareResults(max) {
         localStorage.setItem("pagePass", "1");
         window.location.href = "Compare Results.html"
     }else{
-        GetId("divErrorCompare").innerHTML = "Please select only 2 results to compare."
+        GetId("divErrorCompare").innerHTML = "*Please select only 2 results to compare."
     }
 }
 
 function LoadCompareResults() {
     Redirect();
-    //Placeholder keys for placeholder arrays.
-    localStorage.setItem("keyDebug0", "DebugName DebugStatus 25000 0.1 2500");
-    localStorage.setItem("keyDebug1", "DebugName2 DebugStatus2 50000 0.25 12500");
-    localStorage.setItem("keyDebug2", "DebugName3 DebugStatus3 15000 0.1 1500");
 
     var firstResult = parseInt(localStorage.getItem("firstResult"));
     var secondResult = parseInt(localStorage.getItem("secondResult"));
 
-    var stringArray1 = localStorage.getItem("keyDebug" + firstResult);
-    var stringArray2 = localStorage.getItem("keyDebug" + secondResult);
+    var stringArray1 = localStorage.getItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + firstResult);
+    var stringArray2 = localStorage.getItem(SAVED_RESULT + localStorage.getItem(localStorage.getItem(ACCOUNT_NAME)) + secondResult);
 
     var firstArray = stringArray1.split(' ');
     var secondArray = stringArray2.split(' ');
@@ -203,6 +329,6 @@ function LoadCompareResults() {
     GetId("divTaxResult2").innerHTML = "$" + secondArray[4];
 
     GetId("divIncomeCompare").innerHTML = "$" + (parseFloat(secondArray[2]) - parseFloat(firstArray[2]));
-    GetId("divBracketCompare").innerHTML = (parseFloat(secondArray[3]) - parseFloat(firstArray[3])) * 100 + "%";
+    GetId("divBracketCompare").innerHTML = Math.round(((parseFloat(secondArray[3]) - parseFloat(firstArray[3])) * 100) *100)/100 + "%";
     GetId("divTaxCompare").innerHTML = "$" + (parseFloat(secondArray[4]) - parseFloat(firstArray[4]));
 }

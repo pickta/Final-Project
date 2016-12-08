@@ -15,9 +15,9 @@
     <tr><td>Yearly Income:</td>                 <td><div id="divIncome"></div></td></tr>
     <tr><td>Tax Bracket:</td>                   <td><div id="divBracket"></div></td></tr>
     <tr><td>Calculated Tax:</td>                <td><div id="divTax"></div></td></tr>
-    <tr><td>Save Results?</td>                  <td><input type="radio" id="radSave" name="saveResults">Save<input type="radio" id="radNoSave" name="saveResults">No</td>
-        <td><input type="text" id="txtSaveName" hidden="true"></td></tr>
-    <tr><td><input type="button" id="btnContinue" value="Continue" onclick="ToHome()"></td></tr>
+    <tr><td>Save Results?</td>                  <td><input type="radio" id="radSave" name="saveResults">Save<input type="radio" id="radNoSave" name="saveResults" checked="true">No</td>
+        <td><input type="text" id="txtSaveName"></td>          <td><div id="divSaveError" class="error"></div></td></tr>
+    <tr><td><input type="button" id="btnContinue" value="Continue" onclick="Continue()"></td></tr>
 </table>
 </body>
 </html>

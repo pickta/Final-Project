@@ -15,15 +15,15 @@
     <tr><td>Yearly Income:</td>                 <td><div id="divSavedIncome"></div></td></tr>
     <tr><td>Tax Bracket:</td>                   <td><div id="divSavedBracket"></div></td></tr>
     <tr><td>Calculated Tax:</td>                <td><div id="divSavedTax"></div></td></tr>
-    <tr><td>Delete Results?</td>                <td><input type="radio" id="radDelete" name="deleteResults">Delete<input type="radio" id="radNoDelete" name="deleteResults">No</td>
+    <tr><td>Delete Results?</td>                <td><input type="radio" id="radDelete" name="deleteResults">Delete<input type="radio" id="radNoDelete" name="deleteResults" checked="true">No</td>
     <tr><td>Currency Converter:</td>
         <td><select id="foreignCurrency">
             <option>Canadian Dollars</option>
             <option>Euros</option>
             <option>Japanese Yen</option>
         </select></td>                              <td><input type="button" value="Convert" id="btnConvert" onclick="Convert()"></td>
-        <td><input type="button" value="Convert back to US Dollars" id="btnUSConvert" onclick="LoadSavedResult()"></td></tr>
-    <tr><td><input type="button" id="btnExit" value="Exit" onclick="ToSavedResults()"></td></tr>
+        <td><input type="button" value="Convert back to US Dollars" id="btnUSConvert" onclick="ConvertUS()"></td></tr>
+    <tr><td><input type="button" id="btnExit" value="Exit" onclick="Exit()"></td></tr>
 </table>
 </body>
 </html>
